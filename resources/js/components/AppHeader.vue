@@ -5,6 +5,7 @@ import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import GlobalTimer from '@/components/GlobalTimer.vue';
 import TeamSwitcher from '@/components/TeamSwitcher.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -154,6 +155,14 @@ const rightNavItems: NavItem[] = [
                 <Link :href="dashboardUrl" class="flex items-center gap-x-2">
                     <AppLogo />
                 </Link>
+
+                <div class="ml-6 hidden lg:flex">
+                    <TeamSwitcher />
+                </div>
+
+                <div class="flex-1 lg:flex lg:items-center lg:px-6">
+                    <GlobalTimer />
+                </div>
 
                 <!-- Desktop Menu -->
                 <div class="hidden h-full lg:flex lg:flex-1">

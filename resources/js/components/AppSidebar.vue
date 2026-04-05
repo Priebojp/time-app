@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-vue-next';
+import {
+    BookOpen,
+    FolderGit2,
+    LayoutGrid,
+    Briefcase,
+    Users,
+    Kanban,
+    BarChart3,
+} from 'lucide-vue-next';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
@@ -17,21 +25,69 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import clients from '@/routes/clients';
+import issues from '@/routes/issues';
+import positions from '@/routes/positions';
+import projects from '@/routes/projects';
+import reports from '@/routes/reports';
 import type { NavItem } from '@/types';
 
 const page = usePage();
 
 const dashboardUrl = computed(() =>
-    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
+    page.props.currentTeam
+        ? dashboard.url({
+              current_team: (page.props.currentTeam as any).slug,
+          })
+        : '/',
 );
 
-const mainNavItems = computed<NavItem[]>(() => [
-    {
-        title: 'Dashboard',
-        href: dashboardUrl.value,
-        icon: LayoutGrid,
-    },
-]);
+const mainNavItems = computed<NavItem[]>(() => {
+    const slug = page.props.currentTeam?.slug;
+
+    if (!slug) {
+        return [
+            {
+                title: 'Dashboard',
+                href: dashboardUrl.value,
+                icon: LayoutGrid,
+            },
+        ];
+    }
+
+    return [
+        {
+            title: 'Dashboard',
+            href: dashboardUrl.value,
+            icon: LayoutGrid,
+        },
+        {
+            title: 'Positions',
+            href: positions.index.url({ current_team: slug }),
+            icon: Briefcase,
+        },
+        {
+            title: 'Clients',
+            href: clients.index.url({ current_team: slug }),
+            icon: Users,
+        },
+        {
+            title: 'Projects',
+            href: projects.index.url({ current_team: slug }),
+            icon: FolderGit2,
+        },
+        {
+            title: 'Kanban',
+            href: issues.index.url({ current_team: slug }),
+            icon: Kanban,
+        },
+        {
+            title: 'Reports',
+            href: reports.index.url({ current_team: slug }),
+            icon: BarChart3,
+        },
+    ];
+});
 
 const footerNavItems: NavItem[] = [
     {

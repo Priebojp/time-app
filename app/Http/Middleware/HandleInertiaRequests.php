@@ -37,6 +37,10 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
+        if ($user) {
+            $user->load(['activeTimeEntry.task']);
+        }
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),

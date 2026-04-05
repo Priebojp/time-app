@@ -23,6 +23,8 @@ export default defineConfig({
         }),
         wayfinder({
             formVariants: true,
+            actions: true,
+            routes: true,
         }),
     ],
 });

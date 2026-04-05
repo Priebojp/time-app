@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Database\Factories\ClientFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Client extends Model
+{
+    /** @use HasFactory<ClientFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'team_id',
+        'name',
+        'contact_email',
+        'address',
+    ];
+
+    /**
+     * Get the team that owns the client.
+     */
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
+}

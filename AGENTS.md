@@ -205,4 +205,63 @@ Use Wayfinder to generate TypeScript functions for Laravel routes. Import from `
 Vue components must have a single root element.
 - IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
 
+# AI Instructions for this project
+
+## Product vision
+This is a business application for:
+- employee time tracking
+- companies, teams, and workspaces
+- projects, tasks, milestones, deadlines, and timelines
+- assigning users, positions, and responsibilities
+- role-based access control
+- issue tracking / kanban-style work board
+- hourly rate tracking with validity periods
+- customer/client project management
+- simple start/stop work tracking for employees
+
+## Core principles
+- Prefer simple, maintainable solutions over complex abstractions.
+- Build features that are useful for daily business use.
+- Keep the UI and workflows fast, clear, and low-friction.
+- Use existing structure and conventions before introducing new patterns.
+- Reuse components, helpers, and app patterns whenever possible.
+- Do not add dependencies or new base folders without approval.
+
+## Domain rules
+- Treat "company" as the main organizational unit in the UI and domain where appropriate.
+- Support multiple users inside a company/team.
+- Support employee/admin permission separation strictly.
+- Support positions/roles on users and task/project requirements for positions.
+- Support project ownership, customer ownership, deadlines, and planning dates.
+- Support time entries and live work sessions with clear start, pause, and finish flows.
+- Support operational notes, problems, requests, and follow-up items in a board or kanban-like workflow.
+
+## Backend rules
+- Follow Laravel best practices.
+- Prefer Eloquent, policies, form requests, named routes, and clear service boundaries.
+- Keep authorization explicit and secure.
+- Validate all user input.
+- Use migrations, factories, seeders, and tests for business features.
+- Prefer readable business logic over clever shortcuts.
+- Keep date handling explicit and consistent.
+
+## Frontend rules
+- Keep the interface minimal, practical, and easy to use every day.
+- Optimize for employees who need to quickly start, stop, and review work.
+- Prefer reusable UI components for forms, tables, cards, boards, and timelines.
+- Keep list views, filters, and status indicators clear and scannable.
+- Use simple workflows for task assignment, project assignment, and time logging.
+
+## Testing rules
+- Every meaningful business change should be covered by tests.
+- Prefer the smallest useful test set that proves the behavior.
+- Test permissions, time tracking, assignment logic, and project workflow carefully.
+- Do not remove existing tests without approval.
+
+## Communication rules
+- Be concise and practical.
+- Ask clarifying questions when requirements are ambiguous.
+- Suggest implementation steps when useful.
+- Prefer shipping a working increment over redesigning everything at once.
+
 </laravel-boost-guidelines>
