@@ -20,7 +20,18 @@ class EnsureCompanyMembership
     {
         [$user, $company] = [$request->user(), $this->company($request)];
 
-        abort_if(! $user || ! $company || ! $user->belongsToCompany($company), 403);
+        abort_if(! $user || ! $company, 403);
+
+        if ($user->hasPendingJoinRequest($company)) {
+            // Allow access to dashboard for pending users
+            if ($request->routeIs('dashboard')) {
+                return $next($request);
+            }
+
+            abort(403, 'Your membership is pending approval.');
+        }
+
+        abort_if(! $user->belongsToCompany($company), 403);
 
         $this->ensureCompanyMemberHasRequiredRole($user, $company, $minimumRole);
 

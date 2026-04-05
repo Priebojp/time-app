@@ -25,7 +25,7 @@ trait HasCompanies
     public function companies(): BelongsToMany
     {
         return $this->belongsToMany(Company::class, 'company_members', 'user_id', 'company_id')
-            ->withPivot(['role'])
+            ->withPivot(['role', 'status'])
             ->withTimestamps();
     }
 
@@ -77,11 +77,22 @@ trait HasCompanies
     }
 
     /**
+     * Determine if the user has a pending request to join the given company.
+     */
+    public function hasPendingJoinRequest(Company $company): bool
+    {
+        return $this->companies()
+            ->where('companies.id', $company->id)
+            ->wherePivot('status', 'pending')
+            ->exists();
+    }
+
+    /**
      * Switch to the given company.
      */
     public function switchCompany(Company $company): bool
     {
-        if (! $this->belongsToCompany($company)) {
+        if (! $this->belongsToCompany($company) && ! $this->hasPendingJoinRequest($company)) {
             return false;
         }
 
@@ -98,7 +109,10 @@ trait HasCompanies
      */
     public function belongsToCompany(Company $company): bool
     {
-        return $this->companies()->where('companies.id', $company->id)->exists();
+        return $this->companies()
+            ->where('companies.id', $company->id)
+            ->wherePivot('status', 'approved')
+            ->exists();
     }
 
     /**

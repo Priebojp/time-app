@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['name', 'slug', 'is_personal'])]
+#[Fillable(['name', 'slug', 'is_personal', 'allowed_domains'])]
 class Company extends Model
 {
     /** @use HasFactory<CompanyFactory> */
@@ -58,7 +58,7 @@ class Company extends Model
     {
         return $this->belongsToMany(User::class, 'company_members', 'company_id', 'user_id')
             ->using(Membership::class)
-            ->withPivot(['role'])
+            ->withPivot(['role', 'status'])
             ->withTimestamps();
     }
 
@@ -135,6 +135,7 @@ class Company extends Model
     {
         return [
             'is_personal' => 'boolean',
+            'allowed_domains' => 'array',
         ];
     }
 

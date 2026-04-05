@@ -57,6 +57,14 @@ class CompanyPolicy
     }
 
     /**
+     * Determine whether the user can approve a member join request.
+     */
+    public function approveMember(User $user, Company $company): bool
+    {
+        return $user->hasCompanyPermission($company, CompanyPermission::UpdateMember);
+    }
+
+    /**
      * Determine whether the user can remove a member from the company.
      */
     public function removeMember(User $user, Company $company): bool

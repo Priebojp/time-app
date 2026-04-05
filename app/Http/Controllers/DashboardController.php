@@ -21,6 +21,13 @@ class DashboardController extends Controller
         $company = Company::where('slug', $current_company)->firstOrFail();
         $user = $request->user();
 
+        if ($user->hasPendingJoinRequest($company)) {
+            return Inertia::render('Dashboard', [
+                'status' => 'pending_approval',
+                'company_name' => $company->name,
+            ]);
+        }
+
         // Let's assume 'admin' if they have 'admin' or 'owner' role.
         $role = $user->companyRole($company);
         if ($role === CompanyRole::Admin || $role === CompanyRole::Owner) {

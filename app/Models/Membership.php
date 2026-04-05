@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-#[Fillable(['company_id', 'user_id', 'role'])]
+#[Fillable(['company_id', 'user_id', 'role', 'status'])]
 class Membership extends Pivot
 {
     /**

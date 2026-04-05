@@ -24,7 +24,25 @@ class CompanyMemberController extends Controller
         $company->memberships()
             ->where('user_id', $user->id)
             ->firstOrFail()
-            ->update(['role' => $newRole]);
+            ->update([
+                'role' => $newRole,
+                'status' => 'approved',
+            ]);
+
+        return to_route('companies.edit', ['company' => $company->slug]);
+    }
+
+    /**
+     * Approve the specified company member's join request.
+     */
+    public function approve(Company $company, User $user): RedirectResponse
+    {
+        Gate::authorize('approveMember', $company);
+
+        $company->memberships()
+            ->where('user_id', $user->id)
+            ->firstOrFail()
+            ->update(['status' => 'approved']);
 
         return to_route('companies.edit', ['company' => $company->slug]);
     }
