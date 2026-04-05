@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Enums\TeamRole;
+use App\Enums\CompanyRole;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-#[Fillable(['team_id', 'user_id', 'role'])]
+#[Fillable(['company_id', 'user_id', 'role'])]
 class Membership extends Pivot
 {
     /**
@@ -16,7 +16,7 @@ class Membership extends Pivot
      *
      * @var string
      */
-    protected $table = 'team_members';
+    protected $table = 'company_members';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -26,13 +26,13 @@ class Membership extends Pivot
     public $incrementing = true;
 
     /**
-     * Get the team that the membership belongs to.
+     * Get the company that the membership belongs to.
      *
-     * @return BelongsTo<Team, $this>
+     * @return BelongsTo<Company, $this>
      */
-    public function team(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Team::class);
+        return $this->belongsTo(Company::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class Membership extends Pivot
     protected function casts(): array
     {
         return [
-            'role' => TeamRole::class,
+            'role' => CompanyRole::class,
         ];
     }
 }

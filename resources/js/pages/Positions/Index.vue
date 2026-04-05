@@ -14,21 +14,21 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import positionRoutes from '@/routes/positions';
-import type { Position, Team } from '@/types';
+import type { Position, Company } from '@/types';
 
 
 const props = defineProps<{
     positions: Array<Position>;
-    currentTeam: Team;
+    currentCompany: Company;
 }>();
 
 defineOptions({
-    layout: (props: { currentTeam: Team }) => ({
+    layout: (props: { currentCompany: Company }) => ({
         breadcrumbs: [
             {
                 title: 'Positions',
                 href: positionRoutes.index.url({
-                    current_team: props.currentTeam.slug,
+                    current_company: props.currentCompany.slug,
                 }),
             },
         ],
@@ -60,7 +60,7 @@ const submit = () => {
     if (editingPosition.value) {
         form.patch(
             positionRoutes.update.url({
-                current_team: props.currentTeam.slug,
+                current_company: props.currentCompany.slug,
                 position: editingPosition.value.id,
             }),
             {
@@ -72,7 +72,7 @@ const submit = () => {
         );
     } else {
         form.post(
-            positionRoutes.store.url({ current_team: props.currentTeam.slug }),
+            positionRoutes.store.url({ current_company: props.currentCompany.slug }),
             {
                 onSuccess: () => {
                     isDialogOpen.value = false;
@@ -87,7 +87,7 @@ const deletePosition = (id: number) => {
     if (confirm('Are you sure you want to delete this position?')) {
         form.delete(
             positionRoutes.destroy.url({
-                current_team: props.currentTeam.slug,
+                current_company: props.currentCompany.slug,
                 position: id,
             }),
         );

@@ -210,7 +210,7 @@ Vue components must have a single root element.
 ## Product vision
 This is a business application for:
 - employee time tracking
-- companies, teams, and workspaces
+- companies, companies, and workspaces
 - projects, tasks, milestones, deadlines, and timelines
 - assigning users, positions, and responsibilities
 - role-based access control
@@ -229,7 +229,7 @@ This is a business application for:
 
 ## Domain rules
 - Treat "company" as the main organizational unit in the UI and domain where appropriate.
-- Support multiple users inside a company/team.
+- Support multiple users inside a company/company.
 - Support employee/admin permission separation strictly.
 - Support positions/roles on users and task/project requirements for positions.
 - Support project ownership, customer ownership, deadlines, and planning dates.

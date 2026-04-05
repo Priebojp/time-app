@@ -12,7 +12,7 @@ class TimeEntryPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->currentTeam !== null;
+        return $user->currentCompany !== null;
     }
 
     /**
@@ -20,7 +20,7 @@ class TimeEntryPolicy
      */
     public function view(User $user, TimeEntry $timeEntry): bool
     {
-        return $user->id === $timeEntry->user_id || $user->belongsToTeam($timeEntry->task->project->client->team);
+        return $user->id === $timeEntry->user_id || $user->belongsToCompany($timeEntry->task->project->client->company);
     }
 
     /**
@@ -28,7 +28,7 @@ class TimeEntryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->currentTeam !== null;
+        return $user->currentCompany !== null;
     }
 
     /**

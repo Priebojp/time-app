@@ -10,11 +10,11 @@ use Inertia\Response;
 
 class ReportController extends Controller
 {
-    public function index(Request $request, string $current_team): Response
+    public function index(Request $request, string $current_company): Response
     {
-        $team = $request->user()->currentTeam;
+        $company = $request->user()->currentCompany;
 
-        $projects = Project::whereIn('client_id', $team->clients()->pluck('id'))
+        $projects = Project::whereIn('client_id', $company->clients()->pluck('id'))
             ->with(['client'])
             ->get();
 

@@ -11,14 +11,14 @@ class TwoFactorLoginResponse implements TwoFactorLoginResponseContract
     public function toResponse($request): Response
     {
         $user = $request->user();
-        $team = $user?->currentTeam ?? $user?->personalTeam();
+        $company = $user?->currentCompany ?? $user?->personalCompany();
 
-        if (! $team) {
+        if (! $company) {
             abort(403);
         }
 
         return $request->wantsJson()
             ? new JsonResponse(['two_factor' => false], 200)
-            : redirect()->intended("/{$team->slug}/dashboard");
+            : redirect()->intended("/{$company->slug}/dashboard");
     }
 }

@@ -13,23 +13,23 @@ class IssueController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index(Request $request, string $current_team): Response
+    public function index(Request $request, string $current_company): Response
     {
         $this->authorize('viewAny', Issue::class);
 
-        $team = $request->user()->currentTeam;
+        $company = $request->user()->currentCompany;
 
         return Inertia::render('Kanban/Index', [
-            'issues' => $team->issues()
+            'issues' => $company->issues()
                 ->with(['reporter', 'assignee', 'project'])
                 ->orderBy('order_index')
                 ->get(),
-            'projects' => Project::whereIn('client_id', $team->clients()->pluck('id'))->get(),
-            'members' => $team->members()->get(),
+            'projects' => Project::whereIn('client_id', $company->clients()->pluck('id'))->get(),
+            'members' => $company->members()->get(),
         ]);
     }
 
-    public function store(Request $request, string $current_team)
+    public function store(Request $request, string $current_company)
     {
         $this->authorize('create', Issue::class);
 
@@ -42,16 +42,16 @@ class IssueController extends Controller
             'status' => ['required', 'string', 'in:todo,in_progress,review,done'],
         ]);
 
-        $request->user()->currentTeam->issues()->create([
+        $request->user()->currentCompany->issues()->create([
             ...$validated,
             'reporter_id' => $request->user()->id,
-            'order_index' => $request->user()->currentTeam->issues()->count(),
+            'order_index' => $request->user()->currentCompany->issues()->count(),
         ]);
 
         return back()->with('flash', ['message' => 'Issue created.']);
     }
 
-    public function update(Request $request, string $current_team, Issue $issue)
+    public function update(Request $request, string $current_company, Issue $issue)
     {
         $this->authorize('update', $issue);
 
@@ -70,7 +70,7 @@ class IssueController extends Controller
         return back()->with('flash', ['message' => 'Issue updated.']);
     }
 
-    public function destroy(string $current_team, Issue $issue)
+    public function destroy(string $current_company, Issue $issue)
     {
         $this->authorize('delete', $issue);
 

@@ -12,13 +12,13 @@ class LoginResponse implements LoginResponseContract
     public function toResponse($request): Response
     {
         $user = $request->user();
-        $team = $user?->currentTeam ?? $user?->personalTeam();
+        $company = $user?->currentCompany ?? $user?->personalCompany();
 
-        if (! $team) {
+        if (! $company) {
             abort(403);
         }
 
-        URL::defaults(['current_team' => $team->slug]);
+        URL::defaults(['current_company' => $company->slug]);
 
         return $request->wantsJson()
             ? new JsonResponse(['two_factor' => false], 200)

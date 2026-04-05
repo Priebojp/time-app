@@ -1,5 +1,5 @@
 export * from './auth';
 export * from './navigation';
-export * from './teams';
+export * from './companies';
 export * from './ui';
 export * from './models';

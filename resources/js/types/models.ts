@@ -1,24 +1,24 @@
-import type { Team } from './teams';
+import type { Company } from './companies';
 
 export interface Position {
     id: number;
-    team_id: number;
+    company_id: number;
     name: string;
     description: string | null;
     created_at: string;
     updated_at: string;
-    team?: Team;
+    company?: Company;
 }
 
 export interface Client {
     id: number;
-    team_id: number;
+    company_id: number;
     name: string;
     contact_email: string | null;
     address: string | null;
     created_at: string;
     updated_at: string;
-    team?: Team;
+    company?: Company;
 }
 
 export interface Project {
@@ -52,7 +52,7 @@ export interface Task {
 export interface HourlyRate {
     id: number;
     user_id: number;
-    team_id: number;
+    company_id: number;
     rate: string;
     currency: string;
     valid_from: string;
@@ -77,7 +77,7 @@ export interface TimeEntry {
 
 export interface Issue {
     id: number;
-    team_id: number;
+    company_id: number;
     project_id: number | null;
     reporter_id: number;
     assignee_id: number | null;

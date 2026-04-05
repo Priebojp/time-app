@@ -1,19 +1,19 @@
 <?php
 
+use App\Models\Company;
 use App\Models\Position;
-use App\Models\Team;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
-test('a position belongs to a team', function () {
-    $team = Team::factory()->create();
-    $position = Position::factory()->create(['team_id' => $team->id]);
+test('a position belongs to a company', function () {
+    $company = Company::factory()->create();
+    $position = Position::factory()->create(['company_id' => $company->id]);
 
-    expect($position->team)->toBeInstanceOf(Team::class);
-    expect($position->team->id)->toBe($team->id);
+    expect($position->company)->toBeInstanceOf(Company::class);
+    expect($position->company->id)->toBe($company->id);
 });
 
 test('a position can have multiple users', function () {

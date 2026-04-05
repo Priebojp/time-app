@@ -18,9 +18,9 @@ class HandleInertiaRequestsTest extends TestCase
     public function test_it_shares_active_time_entry_with_task()
     {
         $user = User::factory()->create();
-        $team = $user->currentTeam;
+        $company = $user->currentCompany;
 
-        $client = Client::factory()->create(['team_id' => $team->id]);
+        $client = Client::factory()->create(['company_id' => $company->id]);
         $project = Project::factory()->create(['client_id' => $client->id]);
         $task = Task::factory()->create(['project_id' => $project->id]);
 
@@ -32,7 +32,7 @@ class HandleInertiaRequestsTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->get(route('dashboard', ['current_team' => $team->slug]))
+            ->get(route('dashboard', ['current_company' => $company->slug]))
             ->assertStatus(200)
             ->assertInertia(fn (Assert $page) => $page
                 ->has('auth.user.active_time_entry', fn (Assert $page) => $page
@@ -46,10 +46,10 @@ class HandleInertiaRequestsTest extends TestCase
     public function test_it_handles_no_active_time_entry()
     {
         $user = User::factory()->create();
-        $team = $user->currentTeam;
+        $company = $user->currentCompany;
 
         $this->actingAs($user)
-            ->get(route('dashboard', ['current_team' => $team->slug]))
+            ->get(route('dashboard', ['current_company' => $company->slug]))
             ->assertStatus(200)
             ->assertInertia(fn (Assert $page) => $page
                 ->where('auth.user.active_time_entry', null)

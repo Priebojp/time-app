@@ -12,16 +12,16 @@ class PositionController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index(Request $request, string $current_team): Response
+    public function index(Request $request, string $current_company): Response
     {
         $this->authorize('viewAny', Position::class);
 
         return Inertia::render('Positions/Index', [
-            'positions' => $request->user()->currentTeam->positions()->get(),
+            'positions' => $request->user()->currentCompany->positions()->get(),
         ]);
     }
 
-    public function store(Request $request, string $current_team)
+    public function store(Request $request, string $current_company)
     {
         $this->authorize('create', Position::class);
 
@@ -30,12 +30,12 @@ class PositionController extends Controller
             'description' => ['nullable', 'string'],
         ]);
 
-        $request->user()->currentTeam->positions()->create($validated);
+        $request->user()->currentCompany->positions()->create($validated);
 
         return back()->with('flash', ['message' => 'Position created successfully.']);
     }
 
-    public function update(Request $request, string $current_team, Position $position)
+    public function update(Request $request, string $current_company, Position $position)
     {
         $this->authorize('update', $position);
 
@@ -49,7 +49,7 @@ class PositionController extends Controller
         return back()->with('flash', ['message' => 'Position updated successfully.']);
     }
 
-    public function destroy(string $current_team, Position $position)
+    public function destroy(string $current_company, Position $position)
     {
         $this->authorize('delete', $position);
 

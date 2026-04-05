@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use App\Models\HourlyRate;
-use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,7 +21,7 @@ class HourlyRateFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'team_id' => Team::factory(),
+            'company_id' => Company::factory(),
             'rate' => $this->faker->randomFloat(2, 20, 150),
             'currency' => 'USD',
             'valid_from' => $this->faker->dateTimeBetween('-1 year', 'now'),

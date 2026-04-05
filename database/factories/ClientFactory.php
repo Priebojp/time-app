@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Client;
-use App\Models\Team;
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +19,7 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            'team_id' => Team::factory(),
+            'company_id' => Company::factory(),
             'name' => $this->faker->company(),
             'contact_email' => $this->faker->safeEmail(),
             'address' => $this->faker->address(),

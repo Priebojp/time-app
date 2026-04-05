@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Enums\TeamPermission;
+use App\Enums\CompanyPermission;
 use App\Models\Position;
 use App\Models\User;
 
@@ -13,7 +13,7 @@ class PositionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->currentTeam !== null;
+        return $user->currentCompany !== null;
     }
 
     /**
@@ -21,7 +21,7 @@ class PositionPolicy
      */
     public function view(User $user, Position $position): bool
     {
-        return $user->belongsToTeam($position->team);
+        return $user->belongsToCompany($position->company);
     }
 
     /**
@@ -29,7 +29,7 @@ class PositionPolicy
      */
     public function create(User $user): bool
     {
-        return $user->currentTeam && $user->hasTeamPermission($user->currentTeam, TeamPermission::CreatePositions);
+        return $user->currentCompany && $user->hasCompanyPermission($user->currentCompany, CompanyPermission::CreatePositions);
     }
 
     /**
@@ -37,7 +37,7 @@ class PositionPolicy
      */
     public function update(User $user, Position $position): bool
     {
-        return $user->hasTeamPermission($position->team, TeamPermission::UpdatePositions);
+        return $user->hasCompanyPermission($position->company, CompanyPermission::UpdatePositions);
     }
 
     /**
@@ -45,6 +45,6 @@ class PositionPolicy
      */
     public function delete(User $user, Position $position): bool
     {
-        return $user->hasTeamPermission($position->team, TeamPermission::DeletePositions);
+        return $user->hasCompanyPermission($position->company, CompanyPermission::DeletePositions);
     }
 }

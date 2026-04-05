@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\TeamRole;
+use App\Enums\CompanyRole;
+use App\Models\Company;
 use App\Models\Project;
 use App\Models\Task;
-use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
@@ -16,34 +16,34 @@ class DashboardController extends Controller
     /**
      * Display the dashboard.
      */
-    public function __invoke(Request $request, string $current_team): Response
+    public function __invoke(Request $request, string $current_company): Response
     {
-        $team = Team::where('slug', $current_team)->firstOrFail();
+        $company = Company::where('slug', $current_company)->firstOrFail();
         $user = $request->user();
 
         // Let's assume 'admin' if they have 'admin' or 'owner' role.
-        $role = $user->teamRole($team);
-        if ($role === TeamRole::Admin || $role === TeamRole::Owner) {
-            return $this->adminDashboard($team);
+        $role = $user->companyRole($company);
+        if ($role === CompanyRole::Admin || $role === CompanyRole::Owner) {
+            return $this->adminDashboard($company);
         }
 
-        return $this->memberDashboard($team, $user);
+        return $this->memberDashboard($company, $user);
     }
 
     /**
      * Show the admin dashboard.
      */
-    protected function adminDashboard(Team $team): Response
+    protected function adminDashboard(Company $company): Response
     {
         return Inertia::render('Dashboard', [
             'role' => 'admin',
             'stats' => [
-                'total_projects' => $team->projects()->count(),
-                'total_clients' => $team->clients()->count(),
-                'active_tasks' => Task::whereIn('project_id', $team->projects()->pluck('projects.id'))
+                'total_projects' => $company->projects()->count(),
+                'total_clients' => $company->clients()->count(),
+                'active_tasks' => Task::whereIn('project_id', $company->projects()->pluck('projects.id'))
                     ->where('status', '!=', 'completed')
                     ->count(),
-                'team_members' => $team->members()->count(),
+                'company_members' => $company->members()->count(),
             ],
         ]);
     }
@@ -51,11 +51,11 @@ class DashboardController extends Controller
     /**
      * Show the member dashboard.
      */
-    protected function memberDashboard(Team $team, $user): Response
+    protected function memberDashboard(Company $company, $user): Response
     {
         $lastTimeEntry = $user->timeEntries()
-            ->whereHas('task.project.client', function ($query) use ($team) {
-                $query->where('team_id', $team->id);
+            ->whereHas('task.project.client', function ($query) use ($company) {
+                $query->where('company_id', $company->id);
             })
             ->with(['task.project'])
             ->latest('started_at')
@@ -69,8 +69,8 @@ class DashboardController extends Controller
             ->whereBetween('started_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
             ->sum('duration_seconds') / 3600;
 
-        $availableProjects = Project::whereHas('client', function ($query) use ($team) {
-            $query->where('team_id', $team->id);
+        $availableProjects = Project::whereHas('client', function ($query) use ($company) {
+            $query->where('company_id', $company->id);
         })
             ->where('status', 'active')
             ->with(['tasks' => function ($query) {

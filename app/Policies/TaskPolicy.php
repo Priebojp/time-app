@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Enums\TeamPermission;
+use App\Enums\CompanyPermission;
 use App\Models\Task;
 use App\Models\User;
 
@@ -13,7 +13,7 @@ class TaskPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->currentTeam !== null;
+        return $user->currentCompany !== null;
     }
 
     /**
@@ -21,7 +21,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        return $user->belongsToTeam($task->project->client->team);
+        return $user->belongsToCompany($task->project->client->company);
     }
 
     /**
@@ -29,7 +29,7 @@ class TaskPolicy
      */
     public function create(User $user): bool
     {
-        return $user->currentTeam && $user->hasTeamPermission($user->currentTeam, TeamPermission::CreateTasks);
+        return $user->currentCompany && $user->hasCompanyPermission($user->currentCompany, CompanyPermission::CreateTasks);
     }
 
     /**
@@ -37,7 +37,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return $user->hasTeamPermission($task->project->client->team, TeamPermission::UpdateTasks);
+        return $user->hasCompanyPermission($task->project->client->company, CompanyPermission::UpdateTasks);
     }
 
     /**
@@ -45,6 +45,6 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        return $user->hasTeamPermission($task->project->client->team, TeamPermission::DeleteTasks);
+        return $user->hasCompanyPermission($task->project->client->company, CompanyPermission::DeleteTasks);
     }
 }

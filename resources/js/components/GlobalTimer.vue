@@ -46,10 +46,10 @@ const stopInterval = () => {
 };
 
 const stopTimer = () => {
-    if (activeEntry.value && page.props.currentTeam) {
+    if (activeEntry.value && page.props.currentCompany) {
         useForm({}).post(
             timeEntries.stop.url({
-                current_team: (page.props.currentTeam as any).slug,
+                current_company: (page.props.currentCompany as any).slug,
                 time_entry: activeEntry.value.id,
             }),
             {

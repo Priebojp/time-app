@@ -12,16 +12,16 @@ class ClientController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index(Request $request, string $current_team): Response
+    public function index(Request $request, string $current_company): Response
     {
         $this->authorize('viewAny', Client::class);
 
         return Inertia::render('Clients/Index', [
-            'clients' => $request->user()->currentTeam->clients()->get(),
+            'clients' => $request->user()->currentCompany->clients()->get(),
         ]);
     }
 
-    public function store(Request $request, string $current_team)
+    public function store(Request $request, string $current_company)
     {
         $this->authorize('create', Client::class);
 
@@ -31,12 +31,12 @@ class ClientController extends Controller
             'address' => ['nullable', 'string'],
         ]);
 
-        $request->user()->currentTeam->clients()->create($validated);
+        $request->user()->currentCompany->clients()->create($validated);
 
         return back()->with('flash', ['message' => 'Client created successfully.']);
     }
 
-    public function update(Request $request, string $current_team, Client $client)
+    public function update(Request $request, string $current_company, Client $client)
     {
         $this->authorize('update', $client);
 
@@ -51,7 +51,7 @@ class ClientController extends Controller
         return back()->with('flash', ['message' => 'Client updated successfully.']);
     }
 
-    public function destroy(string $current_team, Client $client)
+    public function destroy(string $current_company, Client $client)
     {
         $this->authorize('delete', $client);
 

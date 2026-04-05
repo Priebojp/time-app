@@ -7,7 +7,7 @@ These rules apply to everything in `resources/js`.
 Build a clean and fast UI for:
 - time tracking
 - projects and tasks
-- company and team management
+- company and company management
 - assignments to users and positions
 - kanban / issue board workflows
 - deadlines, timelines, and work planning

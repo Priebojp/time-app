@@ -13,17 +13,17 @@ class Client extends Model
     use HasFactory;
 
     protected $fillable = [
-        'team_id',
+        'company_id',
         'name',
         'contact_email',
         'address',
     ];
 
     /**
-     * Get the team that owns the client.
+     * Get the company that owns the client.
      */
-    public function team(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Team::class);
+        return $this->belongsTo(Company::class);
     }
 }

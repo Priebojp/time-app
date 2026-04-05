@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('hourly_rates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('team_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('company_id')->constrained()->cascadeOnDelete();
             $table->decimal('rate', 15, 2);
             $table->string('currency', 3)->default('USD');
             $table->date('valid_from');

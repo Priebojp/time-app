@@ -11,7 +11,7 @@ class TimeEntryController extends Controller
 {
     use AuthorizesRequests;
 
-    public function start(Request $request, string $current_team)
+    public function start(Request $request, string $current_company)
     {
         $this->authorize('create', TimeEntry::class);
 
@@ -33,7 +33,7 @@ class TimeEntryController extends Controller
         return back()->with('flash', ['message' => 'Timer started.']);
     }
 
-    public function stop(Request $request, string $current_team, TimeEntry $timeEntry)
+    public function stop(Request $request, string $current_company, TimeEntry $timeEntry)
     {
         $this->authorize('update', $timeEntry);
 
@@ -42,7 +42,7 @@ class TimeEntryController extends Controller
         return back()->with('flash', ['message' => 'Timer stopped.']);
     }
 
-    public function update(Request $request, string $current_team, TimeEntry $timeEntry)
+    public function update(Request $request, string $current_company, TimeEntry $timeEntry)
     {
         $this->authorize('update', $timeEntry);
 
@@ -64,7 +64,7 @@ class TimeEntryController extends Controller
         return back()->with('flash', ['message' => 'Time entry updated.']);
     }
 
-    public function destroy(Request $request, string $current_team, TimeEntry $timeEntry)
+    public function destroy(Request $request, string $current_company, TimeEntry $timeEntry)
     {
         $this->authorize('delete', $timeEntry);
 

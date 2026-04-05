@@ -12,19 +12,19 @@ class ProjectController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index(Request $request, string $current_team): Response
+    public function index(Request $request, string $current_company): Response
     {
         $this->authorize('viewAny', Project::class);
 
         return Inertia::render('Projects/Index', [
-            'projects' => Project::whereIn('client_id', $request->user()->currentTeam->clients()->pluck('id'))
+            'projects' => Project::whereIn('client_id', $request->user()->currentCompany->clients()->pluck('id'))
                 ->with('client')
                 ->get(),
-            'clients' => $request->user()->currentTeam->clients()->get(),
+            'clients' => $request->user()->currentCompany->clients()->get(),
         ]);
     }
 
-    public function store(Request $request, string $current_team)
+    public function store(Request $request, string $current_company)
     {
         $this->authorize('create', Project::class);
 
@@ -43,7 +43,7 @@ class ProjectController extends Controller
         return back()->with('flash', ['message' => 'Project created successfully.']);
     }
 
-    public function show(string $current_team, Project $project): Response
+    public function show(string $current_company, Project $project): Response
     {
         $this->authorize('view', $project);
 
@@ -52,7 +52,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function update(Request $request, string $current_team, Project $project)
+    public function update(Request $request, string $current_company, Project $project)
     {
         $this->authorize('update', $project);
 
@@ -71,7 +71,7 @@ class ProjectController extends Controller
         return back()->with('flash', ['message' => 'Project updated successfully.']);
     }
 
-    public function destroy(string $current_team, Project $project)
+    public function destroy(string $current_company, Project $project)
     {
         $this->authorize('delete', $project);
 

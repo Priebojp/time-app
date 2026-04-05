@@ -13,7 +13,7 @@ class Issue extends Model
     use HasFactory;
 
     protected $fillable = [
-        'team_id',
+        'company_id',
         'project_id',
         'reporter_id',
         'assignee_id',
@@ -25,11 +25,11 @@ class Issue extends Model
     ];
 
     /**
-     * Get the team that the issue belongs to.
+     * Get the company that the issue belongs to.
      */
-    public function team(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Team::class);
+        return $this->belongsTo(Company::class);
     }
 
     /**

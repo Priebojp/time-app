@@ -14,7 +14,7 @@ class HourlyRate extends Model
 
     protected $fillable = [
         'user_id',
-        'team_id',
+        'company_id',
         'rate',
         'currency',
         'valid_from',
@@ -39,10 +39,10 @@ class HourlyRate extends Model
     }
 
     /**
-     * Get the team that the hourly rate belongs to.
+     * Get the company that the hourly rate belongs to.
      */
-    public function team(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Team::class);
+        return $this->belongsTo(Company::class);
     }
 }

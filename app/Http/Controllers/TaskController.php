@@ -10,7 +10,7 @@ class TaskController extends Controller
 {
     use AuthorizesRequests;
 
-    public function store(Request $request, string $current_team)
+    public function store(Request $request, string $current_company)
     {
         $this->authorize('create', Task::class);
 
@@ -26,7 +26,7 @@ class TaskController extends Controller
         return back()->with('flash', ['message' => 'Task created successfully.']);
     }
 
-    public function update(Request $request, string $current_team, Task $task)
+    public function update(Request $request, string $current_company, Task $task)
     {
         $this->authorize('update', $task);
 
@@ -42,7 +42,7 @@ class TaskController extends Controller
         return back()->with('flash', ['message' => 'Task updated successfully.']);
     }
 
-    public function destroy(string $current_team, Task $task)
+    public function destroy(string $current_company, Task $task)
     {
         $this->authorize('delete', $task);
 

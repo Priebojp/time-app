@@ -2,7 +2,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import reports from '@/routes/reports';
-import type { Team } from '@/types';
+import type { Company } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { BarChart3, Clock, DollarSign, Briefcase } from 'lucide-vue-next';
 
@@ -15,15 +15,15 @@ const props = defineProps<{
         total_budget: string | null;
         status: string;
     }[];
-    currentTeam: Team;
+    currentCompany: Company;
 }>();
 
 defineOptions({
-    layout: (props: { currentTeam: Team }) => ({
+    layout: (props: { currentCompany: Company }) => ({
         breadcrumbs: [
             {
                 title: 'Reports',
-                href: reports.index(props.currentTeam.slug),
+                href: reports.index(props.currentCompany.slug),
             },
         ],
     }),

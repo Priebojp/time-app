@@ -31,23 +31,23 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import issueRoutes from '@/routes/issues';
-import type { Issue, Project, Team, User } from '@/types';
+import type { Issue, Project, Company, User } from '@/types';
 
 
 const props = defineProps<{
     issues: Issue[];
     projects: Project[];
     members: User[];
-    currentTeam: Team;
+    currentCompany: Company;
 }>();
 
 defineOptions({
-    layout: (props: { currentTeam: Team }) => ({
+    layout: (props: { currentCompany: Company }) => ({
         breadcrumbs: [
             {
                 title: 'Kanban Board',
                 href: issueRoutes.index.url({
-                    current_team: props.currentTeam.slug,
+                    current_company: props.currentCompany.slug,
                 }),
             },
         ],
@@ -111,7 +111,7 @@ const submit = () => {
     if (editingIssue.value) {
         form.patch(
             issueRoutes.update.url({
-                current_team: props.currentTeam.slug,
+                current_company: props.currentCompany.slug,
                 issue: editingIssue.value.id,
             }),
             {
@@ -123,7 +123,7 @@ const submit = () => {
         );
     } else {
         form.post(
-            issueRoutes.store.url({ current_team: props.currentTeam.slug }),
+            issueRoutes.store.url({ current_company: props.currentCompany.slug }),
             {
                 onSuccess: () => {
                     isDialogOpen.value = false;
@@ -138,7 +138,7 @@ const deleteIssue = (id: number) => {
     if (confirm('Are you sure you want to delete this issue?')) {
         form.delete(
             issueRoutes.destroy.url({
-                current_team: props.currentTeam.slug,
+                current_company: props.currentCompany.slug,
                 issue: id,
             }),
         );
@@ -153,7 +153,7 @@ const moveIssue = (issue: Issue, newStatus: string) => {
         assignee_id: issue.assignee_id?.toString() || '',
     }).patch(
         issueRoutes.update.url({
-            current_team: props.currentTeam.slug,
+            current_company: props.currentCompany.slug,
             issue: issue.id,
         }),
     );
@@ -408,7 +408,7 @@ const getPriorityColor = (priority: string) => {
                             @click="
                                 useForm({}).delete(
                                     issueRoutes.destroy(
-                                        currentTeam.slug,
+                                        currentCompany.slug,
                                         editingIssue.id,
                                     ),
                                 )

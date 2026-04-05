@@ -9,13 +9,13 @@ uses(RefreshDatabase::class);
 
 test('it can show a project', function () {
     $user = User::factory()->create();
-    $team = $user->personalTeam();
-    $client = Client::factory()->for($team)->create();
+    $company = $user->personalCompany();
+    $client = Client::factory()->for($company)->create();
     $project = Project::factory()->for($client)->create();
 
     $response = $this->actingAs($user)
         ->get(route('projects.show', [
-            'current_team' => $team->slug,
+            'current_company' => $company->slug,
             'project' => $project->id,
         ]));
 
@@ -24,11 +24,11 @@ test('it can show a project', function () {
 
 test('it can index projects', function () {
     $user = User::factory()->create();
-    $team = $user->personalTeam();
+    $company = $user->personalCompany();
 
     $response = $this->actingAs($user)
         ->get(route('projects.index', [
-            'current_team' => $team->slug,
+            'current_company' => $company->slug,
         ]));
 
     $response->assertStatus(200);

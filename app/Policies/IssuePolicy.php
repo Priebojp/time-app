@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Enums\TeamPermission;
+use App\Enums\CompanyPermission;
 use App\Models\Issue;
 use App\Models\User;
 
@@ -13,7 +13,7 @@ class IssuePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->currentTeam !== null;
+        return $user->currentCompany !== null;
     }
 
     /**
@@ -21,7 +21,7 @@ class IssuePolicy
      */
     public function view(User $user, Issue $issue): bool
     {
-        return $user->belongsToTeam($issue->team);
+        return $user->belongsToCompany($issue->company);
     }
 
     /**
@@ -29,7 +29,7 @@ class IssuePolicy
      */
     public function create(User $user): bool
     {
-        return $user->currentTeam !== null;
+        return $user->currentCompany !== null;
     }
 
     /**
@@ -39,7 +39,7 @@ class IssuePolicy
     {
         return $user->id === $issue->reporter_id
             || $user->id === $issue->assignee_id
-            || $user->hasTeamPermission($issue->team, TeamPermission::UpdateIssues);
+            || $user->hasCompanyPermission($issue->company, CompanyPermission::UpdateIssues);
     }
 
     /**
@@ -48,6 +48,6 @@ class IssuePolicy
     public function delete(User $user, Issue $issue): bool
     {
         return $user->id === $issue->reporter_id
-            || $user->hasTeamPermission($issue->team, TeamPermission::DeleteIssues);
+            || $user->hasCompanyPermission($issue->company, CompanyPermission::DeleteIssues);
     }
 }

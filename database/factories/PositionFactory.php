@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use App\Models\Position;
-use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +19,7 @@ class PositionFactory extends Factory
     public function definition(): array
     {
         return [
-            'team_id' => Team::factory(),
+            'company_id' => Company::factory(),
             'name' => $this->faker->jobTitle,
             'description' => $this->faker->sentence(),
         ];

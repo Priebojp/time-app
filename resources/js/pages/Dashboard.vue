@@ -7,17 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { dashboard } from '@/routes';
 import timeEntryRoutes from '@/routes/time-entries';
-import type { Team, Project } from '@/types';
+import type { Company, Project } from '@/types';
 
 interface Props {
-    currentTeam: Team;
+    currentCompany: Company;
     role: 'admin' | 'member';
     stats: {
         // Admin stats
         total_projects?: number;
         total_clients?: number;
         active_tasks?: number;
-        team_members?: number;
+        company_members?: number;
         // Member stats
         last_project?: Project | null;
         week_hours?: number;
@@ -50,7 +50,7 @@ return;
 }
 
     startForm.task_id = selectedTaskId.value;
-    startForm.post(timeEntryRoutes.start.url(props.currentTeam.slug), {
+    startForm.post(timeEntryRoutes.start.url(props.currentCompany.slug), {
         preserveScroll: true,
         onSuccess: () => {
             selectedProjectId.value = null;
@@ -62,13 +62,13 @@ return;
 const stopWorking = () => {
     const activeEntryId = user.value?.active_time_entry?.id;
 
-    if (!activeEntryId || !props.currentTeam?.slug) {
+    if (!activeEntryId || !props.currentCompany?.slug) {
         return;
     }
 
     stopForm.post(
         timeEntryRoutes.stop.url({
-            current_team: props.currentTeam.slug,
+            current_company: props.currentCompany.slug,
             time_entry: activeEntryId,
         }),
         {
@@ -78,12 +78,12 @@ const stopWorking = () => {
 };
 
 defineOptions({
-    layout: (props: { currentTeam?: Team | null }) => ({
+    layout: (props: { currentCompany?: Company | null }) => ({
         breadcrumbs: [
             {
                 title: 'Dashboard',
-                href: props.currentTeam
-                    ? dashboard(props.currentTeam.slug)
+                href: props.currentCompany
+                    ? dashboard(props.currentCompany.slug)
                     : '/',
             },
         ],
@@ -131,11 +131,11 @@ defineOptions({
                 </Card>
                 <Card>
                     <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle class="text-sm font-medium">Team Members</CardTitle>
+                        <CardTitle class="text-sm font-medium">Company Members</CardTitle>
                         <Users class="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div class="text-2xl font-bold">{{ stats.team_members }}</div>
+                        <div class="text-2xl font-bold">{{ stats.company_members }}</div>
                     </CardContent>
                 </Card>
             </div>
@@ -144,7 +144,7 @@ defineOptions({
                 <CardHeader>
                     <CardTitle>Welcome back, Admin!</CardTitle>
                     <CardDescription>
-                        Use the sidebar to manage projects, clients, and your team.
+                        Use the sidebar to manage projects, clients, and your company.
                     </CardDescription>
                 </CardHeader>
             </Card>

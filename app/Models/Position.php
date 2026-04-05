@@ -14,17 +14,17 @@ class Position extends Model
     use HasFactory;
 
     protected $fillable = [
-        'team_id',
+        'company_id',
         'name',
         'description',
     ];
 
     /**
-     * Get the team that owns the position.
+     * Get the company that owns the position.
      */
-    public function team(): BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(Team::class);
+        return $this->belongsTo(Company::class);
     }
 
     /**

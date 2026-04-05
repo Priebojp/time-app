@@ -14,7 +14,7 @@ import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
-import TeamSwitcher from '@/components/TeamSwitcher.vue';
+import CompanySwitcher from '@/components/CompanySwitcher.vue';
 import {
     Sidebar,
     SidebarContent,
@@ -35,15 +35,15 @@ import type { NavItem } from '@/types';
 const page = usePage();
 
 const dashboardUrl = computed(() =>
-    page.props.currentTeam
+    page.props.currentCompany
         ? dashboard.url({
-              current_team: (page.props.currentTeam as any).slug,
+              current_company: (page.props.currentCompany as any).slug,
           })
         : '/',
 );
 
 const mainNavItems = computed<NavItem[]>(() => {
-    const slug = page.props.currentTeam?.slug;
+    const slug = page.props.currentCompany?.slug;
 
     if (!slug) {
         return [
@@ -63,27 +63,27 @@ const mainNavItems = computed<NavItem[]>(() => {
         },
         {
             title: 'Positions',
-            href: positions.index.url({ current_team: slug }),
+            href: positions.index.url({ current_company: slug }),
             icon: Briefcase,
         },
         {
             title: 'Clients',
-            href: clients.index.url({ current_team: slug }),
+            href: clients.index.url({ current_company: slug }),
             icon: Users,
         },
         {
             title: 'Projects',
-            href: projects.index.url({ current_team: slug }),
+            href: projects.index.url({ current_company: slug }),
             icon: FolderGit2,
         },
         {
             title: 'Kanban',
-            href: issues.index.url({ current_team: slug }),
+            href: issues.index.url({ current_company: slug }),
             icon: Kanban,
         },
         {
             title: 'Reports',
-            href: reports.index.url({ current_team: slug }),
+            href: reports.index.url({ current_company: slug }),
             icon: BarChart3,
         },
     ];
@@ -117,7 +117,7 @@ const footerNavItems: NavItem[] = [
             </SidebarMenu>
             <SidebarMenu>
                 <SidebarMenuItem>
-                    <TeamSwitcher />
+                    <CompanySwitcher />
                 </SidebarMenuItem>
             </SidebarMenu>
         </SidebarHeader>

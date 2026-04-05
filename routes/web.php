@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Companies\CompanyInvitationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HourlyRateController;
 use App\Http\Controllers\IssueController;
@@ -8,9 +9,8 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TaskController;
-use App\Http\Controllers\Teams\TeamInvitationController;
 use App\Http\Controllers\TimeEntryController;
-use App\Http\Middleware\EnsureTeamMembership;
+use App\Http\Middleware\EnsureCompanyMembership;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -18,8 +18,8 @@ Route::inertia('/', 'Welcome', [
     'canRegister' => Features::enabled(Features::registration()),
 ])->name('home');
 
-Route::prefix('{current_team}')
-    ->middleware(['auth', 'verified', EnsureTeamMembership::class])
+Route::prefix('{current_company}')
+    ->middleware(['auth', 'verified', EnsureCompanyMembership::class])
     ->group(function () {
         Route::get('dashboard', DashboardController::class)->name('dashboard');
 
@@ -53,7 +53,7 @@ Route::prefix('{current_team}')
     });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('invitations/{invitation}/accept', [TeamInvitationController::class, 'accept'])->name(
+    Route::get('invitations/{invitation}/accept', [CompanyInvitationController::class, 'accept'])->name(
         'invitations.accept'
     );
 });

@@ -21,21 +21,21 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import projectRoutes from '@/routes/projects';
-import type { Client, Project, Team } from '@/types';
+import type { Client, Project, Company } from '@/types';
 
 const props = defineProps<{
     projects: Project[];
     clients: Client[];
-    currentTeam: Team;
+    currentCompany: Company;
 }>();
 
 defineOptions({
-    layout: (props: { currentTeam: Team }) => ({
+    layout: (props: { currentCompany: Company }) => ({
         breadcrumbs: [
             {
                 title: 'Projects',
                 href: projectRoutes.index.url({
-                    current_team: props.currentTeam.slug,
+                    current_company: props.currentCompany.slug,
                 }),
             },
         ],
@@ -74,7 +74,7 @@ const openCreateDialog = () => {
 
 const submit = () => {
     form.post(
-        projectRoutes.store.url({ current_team: props.currentTeam.slug }),
+        projectRoutes.store.url({ current_company: props.currentCompany.slug }),
         {
             onSuccess: () => {
                 isDialogOpen.value = false;
@@ -116,7 +116,7 @@ const submit = () => {
                 :key="project.id"
                 :href="
                     projectRoutes.show.url({
-                        current_team: props.currentTeam.slug,
+                        current_company: props.currentCompany.slug,
                         project: project.id,
                     })
                 "

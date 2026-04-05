@@ -10,7 +10,7 @@ class HourlyRateController extends Controller
 {
     use AuthorizesRequests;
 
-    public function store(Request $request, string $current_team)
+    public function store(Request $request, string $current_company)
     {
         $this->authorize('create', HourlyRate::class);
 
@@ -22,12 +22,12 @@ class HourlyRateController extends Controller
             'valid_to' => ['nullable', 'date', 'after_or_equal:valid_from'],
         ]);
 
-        $request->user()->currentTeam->hourlyRates()->create($validated);
+        $request->user()->currentCompany->hourlyRates()->create($validated);
 
         return back()->with('flash', ['message' => 'Hourly rate added.']);
     }
 
-    public function update(Request $request, string $current_team, HourlyRate $hourlyRate)
+    public function update(Request $request, string $current_company, HourlyRate $hourlyRate)
     {
         $this->authorize('update', $hourlyRate);
 
@@ -43,7 +43,7 @@ class HourlyRateController extends Controller
         return back()->with('flash', ['message' => 'Hourly rate updated.']);
     }
 
-    public function destroy(Request $request, string $current_team, HourlyRate $hourlyRate)
+    public function destroy(Request $request, string $current_company, HourlyRate $hourlyRate)
     {
         $this->authorize('delete', $hourlyRate);
 

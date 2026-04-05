@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Enums\TeamPermission;
+use App\Enums\CompanyPermission;
 use App\Models\HourlyRate;
 use App\Models\User;
 
@@ -13,7 +13,7 @@ class HourlyRatePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->currentTeam !== null;
+        return $user->currentCompany !== null;
     }
 
     /**
@@ -21,7 +21,7 @@ class HourlyRatePolicy
      */
     public function view(User $user, HourlyRate $hourlyRate): bool
     {
-        return $user->id === $hourlyRate->user_id || $user->hasTeamPermission($hourlyRate->team, TeamPermission::UpdateHourlyRates);
+        return $user->id === $hourlyRate->user_id || $user->hasCompanyPermission($hourlyRate->company, CompanyPermission::UpdateHourlyRates);
     }
 
     /**
@@ -29,7 +29,7 @@ class HourlyRatePolicy
      */
     public function create(User $user): bool
     {
-        return $user->currentTeam && $user->hasTeamPermission($user->currentTeam, TeamPermission::CreateHourlyRates);
+        return $user->currentCompany && $user->hasCompanyPermission($user->currentCompany, CompanyPermission::CreateHourlyRates);
     }
 
     /**
@@ -37,7 +37,7 @@ class HourlyRatePolicy
      */
     public function update(User $user, HourlyRate $hourlyRate): bool
     {
-        return $user->hasTeamPermission($hourlyRate->team, TeamPermission::UpdateHourlyRates);
+        return $user->hasCompanyPermission($hourlyRate->company, CompanyPermission::UpdateHourlyRates);
     }
 
     /**
@@ -45,6 +45,6 @@ class HourlyRatePolicy
      */
     public function delete(User $user, HourlyRate $hourlyRate): bool
     {
-        return $user->hasTeamPermission($hourlyRate->team, TeamPermission::DeleteHourlyRates);
+        return $user->hasCompanyPermission($hourlyRate->company, CompanyPermission::DeleteHourlyRates);
     }
 }

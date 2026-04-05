@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use App\Models\Issue;
 use App\Models\Project;
-use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,7 +21,7 @@ class IssueFactory extends Factory
     public function definition(): array
     {
         return [
-            'team_id' => Team::factory(),
+            'company_id' => Company::factory(),
             'project_id' => Project::factory(),
             'reporter_id' => User::factory(),
             'assignee_id' => User::factory(),

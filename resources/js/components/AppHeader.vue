@@ -6,7 +6,7 @@ import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import GlobalTimer from '@/components/GlobalTimer.vue';
-import TeamSwitcher from '@/components/TeamSwitcher.vue';
+import CompanySwitcher from '@/components/CompanySwitcher.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -53,7 +53,7 @@ const auth = computed(() => page.props.auth);
 const { isCurrentUrl, whenCurrentUrl } = useCurrentUrl();
 
 const dashboardUrl = computed(() =>
-    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
+    page.props.currentCompany ? dashboard(page.props.currentCompany.slug).url : '/',
 );
 
 const activeItemStyles =
@@ -157,7 +157,7 @@ const rightNavItems: NavItem[] = [
                 </Link>
 
                 <div class="ml-6 hidden lg:flex">
-                    <TeamSwitcher />
+                    <CompanySwitcher />
                 </div>
 
                 <div class="flex-1 lg:flex lg:items-center lg:px-6">
@@ -280,7 +280,7 @@ const rightNavItems: NavItem[] = [
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    <TeamSwitcher :in-header="true" />
+                    <CompanySwitcher :in-header="true" />
                 </div>
             </div>
         </div>

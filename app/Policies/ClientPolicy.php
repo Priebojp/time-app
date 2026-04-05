@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Enums\TeamPermission;
+use App\Enums\CompanyPermission;
 use App\Models\Client;
 use App\Models\User;
 
@@ -13,7 +13,7 @@ class ClientPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->currentTeam !== null;
+        return $user->currentCompany !== null;
     }
 
     /**
@@ -21,7 +21,7 @@ class ClientPolicy
      */
     public function view(User $user, Client $client): bool
     {
-        return $user->belongsToTeam($client->team);
+        return $user->belongsToCompany($client->company);
     }
 
     /**
@@ -29,7 +29,7 @@ class ClientPolicy
      */
     public function create(User $user): bool
     {
-        return $user->currentTeam && $user->hasTeamPermission($user->currentTeam, TeamPermission::CreateClients);
+        return $user->currentCompany && $user->hasCompanyPermission($user->currentCompany, CompanyPermission::CreateClients);
     }
 
     /**
@@ -37,7 +37,7 @@ class ClientPolicy
      */
     public function update(User $user, Client $client): bool
     {
-        return $user->hasTeamPermission($client->team, TeamPermission::UpdateClients);
+        return $user->hasCompanyPermission($client->company, CompanyPermission::UpdateClients);
     }
 
     /**
@@ -45,6 +45,6 @@ class ClientPolicy
      */
     public function delete(User $user, Client $client): bool
     {
-        return $user->hasTeamPermission($client->team, TeamPermission::DeleteClients);
+        return $user->hasCompanyPermission($client->company, CompanyPermission::DeleteClients);
     }
 }

@@ -28,26 +28,26 @@ import { Label } from '@/components/ui/label';
 import projects from '@/routes/projects';
 import tasks from '@/routes/tasks';
 import timeEntries from '@/routes/time-entries';
-import type { Project, Team, Task } from '@/types';
+import type { Project, Company, Task } from '@/types';
 
 const props = defineProps<{
     project: Project & { tasks: (Task & { users: any[] })[] };
-    currentTeam: Team;
+    currentCompany: Company;
 }>();
 
 defineOptions({
-    layout: (props: { currentTeam: Team; project: Project }) => ({
+    layout: (props: { currentCompany: Company; project: Project }) => ({
         breadcrumbs: [
             {
                 title: 'Projects',
                 href: projects.index.url({
-                    current_team: props.currentTeam.slug,
+                    current_company: props.currentCompany.slug,
                 }),
             },
             {
                 title: props.project.name,
                 href: projects.show.url({
-                    current_team: props.currentTeam.slug,
+                    current_company: props.currentCompany.slug,
                     project: props.project.id,
                 }),
             },
@@ -70,7 +70,7 @@ const openTaskDialog = () => {
 
 const submitTask = () => {
     taskForm.post(
-        tasks.store.url({ current_team: props.currentTeam.slug }),
+        tasks.store.url({ current_company: props.currentCompany.slug }),
         {
             onSuccess: () => {
                 isTaskDialogOpen.value = false;
@@ -84,7 +84,7 @@ const toggleTaskStatus = (task: Task) => {
     const newStatus = task.status === 'done' ? 'todo' : 'done';
     useForm({ status: newStatus }).patch(
         tasks.update.url({
-            current_team: props.currentTeam.slug,
+            current_company: props.currentCompany.slug,
             task: task.id,
         }),
     );
@@ -92,7 +92,7 @@ const toggleTaskStatus = (task: Task) => {
 
 const startTimer = (taskId: number) => {
     useForm({ task_id: taskId }).post(
-        timeEntries.start.url({ current_team: props.currentTeam.slug }),
+        timeEntries.start.url({ current_company: props.currentCompany.slug }),
     );
 };
 
@@ -100,7 +100,7 @@ const deleteTask = (taskId: number) => {
     if (confirm('Are you sure you want to delete this task?')) {
         useForm({}).delete(
             tasks.destroy.url({
-                current_team: props.currentTeam.slug,
+                current_company: props.currentCompany.slug,
                 task: taskId,
             }),
         );
@@ -118,7 +118,7 @@ const deleteTask = (taskId: number) => {
                     <a
                         :href="
                             projects.index.url({
-                                current_team: currentTeam.slug,
+                                current_company: currentCompany.slug,
                             })
                         "
                     >
